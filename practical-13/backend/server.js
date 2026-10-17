@@ -70,7 +70,7 @@ function getFallbackDescription(title) {
 app.get('/', (req, res) => {
   let providerName = 'Contextual Fallback Engine (Active)';
   if (hasGemini) {
-    providerName = 'Google Gemini (gemini-1.5-flash)';
+    providerName = 'Google Gemini (gemini-flash-latest)';
   } else if (openai) {
     providerName = 'OpenAI (gpt-4o-mini)';
   }
@@ -114,37 +114,42 @@ app.post('/api/ai/generate-description', async (req, res) => {
   if (hasGemini) {
     try {
       const prompt = `You are a helpful project manager. Write a concise, 1-2 sentence actionable task description based on this task title: "${title.trim()}". Return only the description text without quotation marks or bullet points.`;
-      const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey.trim()}`;
+      
+      const modelsToTry = ['gemini-flash-latest', 'gemini-1.5-flash', 'gemini-2.5-flash'];
+      let generatedText = null;
+      let usedModel = 'gemini-flash-latest';
 
-      const response = await fetch(geminiUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [
-            {
-              parts: [{ text: prompt }]
-            }
-          ],
-          generationConfig: {
-            temperature: 0.7,
-            maxOutputTokens: 120
+      for (const model of modelsToTry) {
+        try {
+          const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiApiKey.trim()}`;
+          const response = await fetch(geminiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ parts: [{ text: prompt }] }],
+              generationConfig: {
+                temperature: 0.7,
+                maxOutputTokens: 120
+              }
+            })
+          });
+
+          const data = await response.json();
+          if (response.ok && data.candidates?.[0]?.content?.parts?.[0]?.text) {
+            generatedText = data.candidates[0].content.parts[0].text.trim();
+            usedModel = model;
+            break;
           }
-        })
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error?.message || `Gemini API returned status ${response.status}`);
+        } catch (innerErr) {
+          // Try next model if any network or response error
+        }
       }
-
-      const generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
 
       if (generatedText) {
         return res.status(200).json({
           success: true,
           description: generatedText,
-          source: 'Google Gemini (gemini-1.5-flash)',
+          source: `Google Gemini (${usedModel})`,
           fallback: false,
           disclaimer: 'AI-generated suggestion. Please review and edit before saving.'
         });
