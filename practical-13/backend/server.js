@@ -129,7 +129,7 @@ app.post('/api/ai/generate-description', async (req, res) => {
               contents: [{ parts: [{ text: prompt }] }],
               generationConfig: {
                 temperature: 0.7,
-                maxOutputTokens: 120
+                maxOutputTokens: 1000
               }
             })
           });
