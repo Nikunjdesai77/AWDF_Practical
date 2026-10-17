@@ -1,0 +1,28 @@
+{
+  "name": "practical-11-backend",
+  "version": "1.0.0",
+  "description": "Full Stack Integration Backend - Express + MongoDB (Nikunj Desai - 24CS016)",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node test-api.js"
+  },
+  "keywords": [
+    "express",
+    "mongodb",
+    "mongoose",
+    "cors",
+    "full-stack",
+    "crud"
+  ],
+  "author": "Nikunj Desai (24CS016)",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.9.5"
+  }
+}
