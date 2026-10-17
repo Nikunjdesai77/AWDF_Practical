@@ -9,11 +9,19 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/awdf_practical13';
 
-// Initialize OpenAI client if key exists
-const apiKey = process.env.OPENAI_API_KEY;
+// Initialize AI Providers
+const geminiApiKey = process.env.GEMINI_API_KEY;
+const hasGemini = Boolean(
+  geminiApiKey &&
+  geminiApiKey.trim() !== '' &&
+  geminiApiKey !== 'your_gemini_api_key_here' &&
+  geminiApiKey !== 'mock_or_demo_key'
+);
+
+const openaiApiKey = process.env.OPENAI_API_KEY;
 let openai = null;
-if (apiKey && apiKey !== 'your_openai_api_key_here' && apiKey !== 'mock_or_demo_key') {
-  openai = new OpenAI({ apiKey });
+if (openaiApiKey && openaiApiKey !== 'your_openai_api_key_here' && openaiApiKey !== 'mock_or_demo_key') {
+  openai = new OpenAI({ apiKey: openaiApiKey });
 }
 
 app.use(cors());
@@ -60,9 +68,16 @@ function getFallbackDescription(title) {
 // 1. Root & Status
 // ==========================================
 app.get('/', (req, res) => {
+  let providerName = 'Contextual Fallback Engine (Active)';
+  if (hasGemini) {
+    providerName = 'Google Gemini (gemini-1.5-flash)';
+  } else if (openai) {
+    providerName = 'OpenAI (gpt-4o-mini)';
+  }
+
   res.json({
     message: 'Practical 13: AI API Integration into a Web Application',
-    aiProvider: openai ? 'OpenAI (Configured)' : 'Contextual Fallback Engine (Active)',
+    aiProvider: providerName,
     endpoints: {
       generateDescription: 'POST /api/ai/generate-description',
       tasks: 'GET, POST /tasks',
@@ -84,7 +99,7 @@ app.post('/api/ai/generate-description', async (req, res) => {
     });
   }
 
-  // Rate Limiting (Supplementary Requirement: 1 request every 5s per IP/client)
+  // Rate Limiting (Supplementary Requirement: 1 request every 3s per IP/client)
   const clientKey = req.ip || 'anonymous';
   const now = Date.now();
   if (lastRequestTime.has(clientKey) && now - lastRequestTime.get(clientKey) < 3000) {
@@ -95,7 +110,53 @@ app.post('/api/ai/generate-description', async (req, res) => {
   }
   lastRequestTime.set(clientKey, now);
 
-  // Try calling real OpenAI API if client is configured
+  // 1. Try Google Gemini API if GEMINI_API_KEY is configured
+  if (hasGemini) {
+    try {
+      const prompt = `You are a helpful project manager. Write a concise, 1-2 sentence actionable task description based on this task title: "${title.trim()}". Return only the description text without quotation marks or bullet points.`;
+      const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey.trim()}`;
+
+      const response = await fetch(geminiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [
+            {
+              parts: [{ text: prompt }]
+            }
+          ],
+          generationConfig: {
+            temperature: 0.7,
+            maxOutputTokens: 120
+          }
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error?.message || `Gemini API returned status ${response.status}`);
+      }
+
+      const generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+
+      if (generatedText) {
+        return res.status(200).json({
+          success: true,
+          description: generatedText,
+          source: 'Google Gemini (gemini-1.5-flash)',
+          fallback: false,
+          disclaimer: 'AI-generated suggestion. Please review and edit before saving.'
+        });
+      }
+    } catch (geminiError) {
+      console.warn('Google Gemini API call failed or quota reached:', geminiError.message);
+      console.log('Falling back gracefully to contextual description generator...');
+      // Fall through to fallback below
+    }
+  }
+
+  // 2. Try OpenAI API if OpenAI client is configured
   if (openai) {
     try {
       const completion = await openai.chat.completions.create({

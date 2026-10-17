@@ -20,7 +20,7 @@ React Frontend (localhost:5173)
 Express Backend (localhost:5000) - POST /api/ai/generate-description
        │  2. Server reads API key securely from .env (NEVER exposed to frontend)
        ▼
-OpenAI API (gpt-4o-mini) / Fallback Engine
+Google Gemini API (gemini-1.5-flash) / OpenAI / Fallback Engine
        │  3. Formulates prompt: "Write a short task description for: <title>"
        ▼
 Response returned to Frontend
@@ -51,7 +51,7 @@ practical-13/
 ├── backend/
 │   ├── models/
 │   │   └── Task.js          # Reused Mongoose schema
-│   ├── .env                 # Server PORT, MONGO_URI, OPENAI_API_KEY (never committed)
+│   ├── .env                 # Server PORT, MONGO_URI, GEMINI_API_KEY (never committed)
 │   ├── .env.example
 │   ├── server.js            # Express server with /api/ai/generate-description & fallback
 │   ├── test-ai.js           # Automated test script for AI endpoint & graceful degradation
