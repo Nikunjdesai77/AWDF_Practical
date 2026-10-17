@@ -9,7 +9,6 @@ RUN npm install
 
 # Build static production bundle
 COPY . .
-
 RUN npm run build
 
 EXPOSE 5173
