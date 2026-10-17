@@ -1,0 +1,29 @@
+{
+  "name": "practical-13-backend",
+  "version": "1.0.0",
+  "description": "Practical 13: AI API Integration into a Web Application (Nikunj Desai - 24CS016)",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node test-ai.js"
+  },
+  "keywords": [
+    "express",
+    "mongodb",
+    "mongoose",
+    "openai",
+    "ai-integration",
+    "graceful-degradation"
+  ],
+  "author": "Nikunj Desai (24CS016)",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.9.5",
+    "openai": "^4.86.1"
+  }
+}
