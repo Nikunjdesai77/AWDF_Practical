@@ -60,6 +60,7 @@ header p {
 }
 
 /* Content Pages */
+.portfolio-section,
 .page-box {
   background-color: #ffffff;
   border: 1px solid #dddddd;
@@ -68,9 +69,94 @@ header p {
   margin-bottom: 20px;
 }
 
+.portfolio-section h2,
 .page-box h2 {
   font-size: 1.3rem;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
+  color: #222222;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 6px;
+}
+
+/* Skills */
+.skills-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.skill-category-item {
+  font-size: 0.9rem;
+}
+
+/* Projects */
+.projects-container {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.project-card {
+  border: 1px solid #e0e0e0;
+  padding: 14px;
+  border-radius: 4px;
+  background-color: #fafafa;
+}
+
+.project-card h3 {
+  font-size: 1.05rem;
+  color: #0066cc;
+  margin-bottom: 6px;
+}
+
+.project-tech {
+  font-size: 0.85rem;
+  color: #555555;
+  margin-bottom: 8px;
+}
+
+.project-points {
+  margin-left: 20px;
+  font-size: 0.85rem;
+  color: #444444;
+}
+
+/* Contact form */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 450px;
+  margin-top: 14px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.btn-submit {
+  background-color: #0066cc;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
 }
 
 /* Simple Table */
@@ -133,11 +219,32 @@ footer {
 }
 
 .dark-mode .portfolio-nav,
+.dark-mode .portfolio-section,
 .dark-mode .page-box,
 .dark-mode .loading-box {
   background-color: #1e1e1e;
   border-color: #333333;
   color: #dddddd;
+}
+
+.dark-mode .portfolio-section h2,
+.dark-mode .page-box h2 {
+  color: #ffffff;
+  border-color: #333333;
+}
+
+.dark-mode .project-card {
+  background-color: #252525;
+  border-color: #333333;
+}
+
+.dark-mode .project-card h3 {
+  color: #60a5fa;
+}
+
+.dark-mode .project-tech,
+.dark-mode .project-points {
+  color: #cccccc;
 }
 
 .dark-mode .nav-item {
