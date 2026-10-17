@@ -1,0 +1,140 @@
+.portfolio-app {
+  max-width: 840px;
+  margin: 30px auto;
+  padding: 28px;
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+}
+
+/* Header */
+.portfolio-header {
+  text-align: center;
+  padding-bottom: 18px;
+  border-bottom: 3px solid #1e40af;
+  margin-bottom: 24px;
+}
+
+.portfolio-header h1 {
+  font-size: 28px;
+  margin-bottom: 6px;
+}
+
+.header-subtitle {
+  font-size: 16px;
+  color: #374151;
+  margin-bottom: 10px;
+}
+
+.header-contact {
+  font-size: 14px;
+  color: #4b5563;
+}
+
+/* Main Sections */
+.portfolio-main {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.portfolio-section {
+  padding-bottom: 18px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.portfolio-section h2 {
+  font-size: 19px;
+  color: #111827;
+  margin-bottom: 10px;
+  border-left: 4px solid #1e40af;
+  padding-left: 8px;
+}
+
+.portfolio-section p {
+  color: #374151;
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+
+/* Skills Categories */
+.skills-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.skill-category-item {
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.5;
+}
+
+.skill-category-item strong {
+  color: #1f2937;
+}
+
+.skills-list {
+  list-style-type: square;
+  padding-left: 20px;
+  margin-top: 8px;
+}
+
+.skill-item {
+  margin-bottom: 6px;
+  color: #1f2937;
+  font-size: 14.5px;
+}
+
+/* Projects */
+.projects-container {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 8px;
+}
+
+.project-card {
+  padding: 12px 16px;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+}
+
+.project-card h3 {
+  font-size: 16px;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+.project-tech {
+  font-size: 13.5px;
+  color: #4b5563;
+  margin-bottom: 8px;
+}
+
+.project-points {
+  padding-left: 20px;
+  list-style-type: disc;
+}
+
+.project-points li {
+  font-size: 13.5px;
+  color: #374151;
+  margin-bottom: 4px;
+  line-height: 1.5;
+}
+
+/* Footer */
+.portfolio-footer {
+  margin-top: 24px;
+  padding-top: 16px;
+  text-align: center;
+  font-size: 13.5px;
+  color: #6b7280;
+}
+
+.portfolio-footer p {
+  margin-bottom: 4px;
+}
