@@ -1,0 +1,27 @@
+{
+  "name": "practical-05",
+  "version": "1.0.0",
+  "description": "MongoDB Integration and Schema Design with Mongoose - Practical 5 (Nikunj Desai - 24CS016)",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "express",
+    "mongodb",
+    "mongoose",
+    "schema-design",
+    "crud",
+    "awdf"
+  ],
+  "author": "Nikunj Desai (24CS016)",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.9.5"
+  }
+}
